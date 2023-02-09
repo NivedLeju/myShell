@@ -76,7 +76,7 @@ void process_command_line(char* line)
         {
         }
     }
-    else if (is_command("exit", command))
+    else if (is_command("quit", command))
     {
         exit(0);
     }
