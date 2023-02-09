@@ -69,6 +69,13 @@ void process_command_line(char* line)
             printf("%s\n", environ[i]);
         }
     }
+    else if (is_command("pause", command))
+    {
+        // loop forever until getchar() returns a newline character
+        while (getchar() != '\n')
+        {
+        }
+    }
     else if (is_command("exit", command))
     {
         exit(0);
