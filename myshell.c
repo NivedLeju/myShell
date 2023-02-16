@@ -17,22 +17,59 @@ int is_command(const char* command, char* input)
 
 void process_command_line(char* line)
 {
-    char* command = strtok(line, " ");
+    // allocate a buffer to hold the command line
+    char line_buffer[BUFFER_SIZE];
+    strncpy(line_buffer, line, BUFFER_SIZE);
+
+    char* command = strtok(line_buffer, " ");
+
+    int space_count = 0;
+
+    // count the number of spaces in the command line
+    // we use this to allocate the minimal amount of memory for the array of arguments
+    for (int i = 0; command[i] != '\0'; i++)
+    {
+        if (command[i] == ' ')
+        {
+            command[i] = '\0';
+        }
+
+        space_count++;
+    }
+    
+    // allocate an array of strings to hold the arguments
+    // extra space for the command and a null terminator
+    char** argv = malloc((space_count + 2) * sizeof(char*));
+
+    char* arg;
+    int i = 1; // start at 1 since argv[0] is expected to be the program
+    
+    // get the rest of the arguments
+    while ((arg = strtok(NULL, " ")) != NULL)
+    {
+        // add the argument to the array
+        argv[i] = arg;
+
+        // strip any trailing new line character
+        arg[strcspn(arg, "\n")] = 0;
+
+        i++;
+    }
+
+    // add the command to the array
+    argv[0] = command;
+
+    // add a null terminator to the array
+    argv[i] = NULL;
+
+    // strip any trailing new line character from the command
+    command[strcspn(command, "\n")] = 0;
 
     if (is_command("cd", command)) // compare string to "cd"
     {
         // get the argument
-        char* path = strtok(NULL, " ");
+        char* path = argv[1];
         
-        if (path == NULL)
-        {
-            printf("Error: no path specified\n");
-            return;
-        }
-
-        // strip trailing new line character
-        path[strcspn(path, "\n")] = 0;
-
         // attempt to change to the directory; chdir returns 0 on success
         if (chdir(path) < 0)
         {
@@ -86,48 +123,6 @@ void process_command_line(char* line)
     }
     else
     {
-        int space_count = 0;
-
-        // count the number of spaces in the command line
-        // we use this to allocate the minimal amount of memory for the array of arguments
-        for (int i = 0; command[i] != '\0'; i++)
-        {
-            if (command[i] == ' ')
-            {
-                command[i] = '\0';
-            }
-
-            space_count++;
-        }
-        
-        // allocate an array of strings to hold the arguments
-        // extra space for the command and a null terminator
-        char** argv = malloc((space_count + 2) * sizeof(char*));
-
-        char* arg;
-        int i = 1; // start at 1 since argv[0] is expected to be the program
-        
-        // get the rest of the arguments
-        while ((arg = strtok(NULL, " ")) != NULL)
-        {
-            // add the argument to the array
-            argv[i] = arg;
-
-            // strip any trailing new line character
-            arg[strcspn(arg, "\n")] = 0;
-
-            i++;
-        }
-
-        // add the command to the array
-        argv[0] = command;
-
-        // add a null terminator to the array
-        argv[i] = NULL;
-
-        // strip any trailing new line character from the command
-        command[strcspn(command, "\n")] = 0;
-
         // execute the program
         exec_program(command, argv);
     }
