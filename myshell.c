@@ -126,6 +126,8 @@ void process_command_line(char* line)
         // execute the program
         exec_program(command, argv);
     }
+
+    free(argv);
 }
 
 int main(int argc, char** argv)
