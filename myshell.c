@@ -8,6 +8,8 @@
 
 #include "utility.h"
 
+#define BUFFER_SIZE 0x200
+
 int is_command(const char* command, char* input)
 {
     return strncmp(command, input, strlen(command)) == 0;
@@ -134,8 +136,8 @@ void process_command_line(char* line)
 int main(int argc, char** argv)
 {
     // allocate buffer for getline
-    char* buffer = malloc(100);
-    size_t bufferSize = 100;
+    char* buffer = malloc(BUFFER_SIZE);
+    size_t bufferSize = BUFFER_SIZE;
 
     // allocate buffer for the cwd
     char cwd[PATH_MAX];
