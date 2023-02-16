@@ -1,5 +1,5 @@
-myshell: myshell.c
-	gcc -o myshell myshell.c
+myshell: myshell.c utility.h utility.c
+	gcc -o myshell myshell.c utility.c
 
 all: myshell
 
