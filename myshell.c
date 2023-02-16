@@ -6,6 +6,8 @@
 #include <errno.h>
 #include <dirent.h>
 
+#include "utility.h"
+
 int is_command(const char* command, char* input)
 {
     return strncmp(command, input, strlen(command)) == 0;
@@ -79,6 +81,53 @@ void process_command_line(char* line)
     else if (is_command("quit", command))
     {
         exit(0);
+    }
+    else
+    {
+        int space_count = 0;
+
+        // count the number of spaces in the command line
+        // we use this to allocate the minimal amount of memory for the array of arguments
+        for (int i = 0; command[i] != '\0'; i++)
+        {
+            if (command[i] == ' ')
+            {
+                command[i] = '\0';
+            }
+
+            space_count++;
+        }
+        
+        // allocate an array of strings to hold the arguments
+        // extra space for the command and a null terminator
+        char** argv = malloc((space_count + 2) * sizeof(char*));
+
+        char* arg;
+        int i = 1; // start at 1 since argv[0] is expected to be the program
+        
+        // get the rest of the arguments
+        while ((arg = strtok(NULL, " ")) != NULL)
+        {
+            // add the argument to the array
+            argv[i] = arg;
+
+            // strip any trailing new line character
+            arg[strcspn(arg, "\n")] = 0;
+
+            i++;
+        }
+
+        // add the command to the array
+        argv[0] = command;
+
+        // add a null terminator to the array
+        argv[i] = NULL;
+
+        // strip any trailing new line character from the command
+        command[strcspn(command, "\n")] = 0;
+
+        // execute the program
+        exec_program(command, argv);
     }
 }
 
