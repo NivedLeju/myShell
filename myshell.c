@@ -183,6 +183,8 @@ void process_command_line(char* line)
     }
     else if (is_command("pause", command))
     {
+        printf("Press enter to continue...");
+        
         // loop forever until getchar() returns a newline character
         while (getchar() != '\n')
         {
