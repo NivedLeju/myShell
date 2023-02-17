@@ -16,7 +16,7 @@ You should see something like the following:
 
 This is the prompt for you to enter a command.
 
-The current directory that you are working in is listed at the start of the prompt. In this case, it is `/home/julian`.
+The current directory that you are working in is listed at the start of the prompt. In this case, it is `/home/user`.
 
 To run a command, enter one and press the enter key:
 
