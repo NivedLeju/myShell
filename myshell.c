@@ -139,7 +139,7 @@ void process_command_line(char* line)
         // read each entry in the directory and print its name
         while ((entry = readdir(dir)) != NULL)
         {
-            printf("%s\n", entry->d_name);
+            fprintf(out_file, "%s\n", entry->d_name);
         }
     }
     else if (is_command("environ", command))
