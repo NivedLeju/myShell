@@ -67,15 +67,45 @@ void process_command_line(char* line)
     // strip any trailing new line character from the command
     command[strcspn(command, "\n")] = 0;
 
-    // Parse the command line for background execution
+    // Parse the command line for redirection and background execution
+    FILE* out_file = stdout;
     bool background = false;
 
     for (int j = i - 1; j != 0; j--)
     {
+        printf("arg %d: %s\n", j, argv[j]);
+
         if (argv[j][0] == '&')
         {
             argv[j] = NULL;
             background = true;
+        }
+        else if (argv[j][0] == '>')
+        {
+            char* mode;
+
+            if (argv[j][1] == '>') // double >> is append
+            {
+                mode = "a+";
+            }
+            else // single > is truncate
+            {
+                mode = "w+";
+            }
+
+            out_file = fopen(argv[j + 1], mode);
+
+            if (out_file == NULL)
+            {
+                printf("Error: could not open file %s\n", argv[j + 1]);
+                return;
+            }
+            
+            // POSIX standard doesn't specify initial file position for append mode
+            // always seek to the end of the file
+            fseek(out_file, 0, SEEK_END);
+
+            argv[j] = NULL;
         }
     }
 
@@ -138,7 +168,12 @@ void process_command_line(char* line)
     else
     {
         // execute the program
-        exec_program(command, argv, background);
+        exec_program(command, argv, out_file, background);
+    }
+
+    if (out_file != stdout)
+    {
+        fclose(out_file);
     }
 
     free(argv);
