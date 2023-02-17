@@ -133,6 +133,7 @@ void process_command_line(char* line)
         if (dir == NULL)
         {
             printf("Error: could not open current directory\n");
+            return;
         }
 
         struct dirent* entry;
