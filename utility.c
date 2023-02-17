@@ -6,7 +6,7 @@
 
 #include "utility.h"
 
-void exec_program(char* program, char** argv, bool background)
+void exec_program(char* program, char** argv, FILE* out, bool background)
 {
     // fork a new process
     pid_t pid = fork();
@@ -16,6 +16,9 @@ void exec_program(char* program, char** argv, bool background)
         // transfer SHELL environment variable to PARENT
         char* shell = getenv("SHELL");
         setenv("PARENT", shell, true);
+
+        // set stdout to the output file
+        dup2(fileno(out), STDOUT_FILENO);
 
         // execute the program
         execvp(program, argv);
