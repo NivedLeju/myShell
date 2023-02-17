@@ -6,7 +6,7 @@
 
 #include "utility.h"
 
-void exec_program(char* program, char** argv, FILE* out, bool background)
+void exec_program(char* program, char** argv, FILE* in, FILE* out, bool background)
 {
     // fork a new process
     pid_t pid = fork();
@@ -18,6 +18,7 @@ void exec_program(char* program, char** argv, FILE* out, bool background)
         setenv("PARENT", shell, true);
 
         // set stdout to the output file
+        dup2(fileno(in), STDIN_FILENO);
         dup2(fileno(out), STDOUT_FILENO);
 
         // execute the program
