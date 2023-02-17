@@ -171,6 +171,16 @@ void process_command_line(char* line)
             fprintf(out_file, "%s\n", environ[i]);
         }
     }
+    else if (is_command("echo", command))
+    {
+        // print out all arguments
+        for (int j = 1; argv[j] != NULL; j++)
+        {
+            fprintf(out_file, "%s ", argv[j]);
+        }
+
+        fprintf(out_file, "\n");
+    }
     else if (is_command("pause", command))
     {
         // loop forever until getchar() returns a newline character
