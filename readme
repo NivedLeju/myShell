@@ -1,0 +1,105 @@
+# myShell
+
+myShell is a basic shell application that lets you execute commands and other programs from a command line.
+
+# Basic Usage
+
+First, run the `myshell` application in a terminal window.
+
+You should see something like the following:
+
+```
+/home/user $
+```
+
+This is the prompt for you to enter a command.
+
+The current directory that you are working in is listed at the start of the prompt. In this case, it is `/home/julian`.
+
+To run a command, enter one and press the enter key:
+
+```
+/home/user $ cd Documents
+/home/user/Documents $
+```
+
+You can run external programs by specifying their path (or, if they're in a directory on the `$PATH`, just specify their name like a built-in command):
+
+```
+/home/user $ ./hello
+Hello, World!
+```
+
+## Built-In Commands
+
+### `cd`
+
+The `cd` command lets you change the current directory that you are working in.
+
+```
+/home/user $ cd Documents
+/home/user/Documents $
+```
+
+### `clr`
+
+The `clr` command clears the entire screen of any text and returns the cursor back to the top left.
+
+### `dir`
+
+The `dir` command lists all files and folders in a specific path.
+
+If no path is specified, the current directory will be used.
+
+```
+/home/user $ dir Documents
+.
+..
+Resume.docx
+/home/user $ dir
+.
+..
+Desktop
+Documents
+Pictures
+Videos
+```
+
+### `environ`
+
+The `environ` command lists all environment variables that are currently set.
+
+```
+/home/user $ environ
+TMPDIR=/tmp
+USER=user
+PATH=/bin:/usr/bin:/usr/local/bin
+SHELL=/bin/myshell
+```
+
+### `echo`
+
+The `echo` command prints whatever comes after it to the screen.
+
+```
+/home/user $ echo Hello, World!
+Hello, World!
+```
+
+### `help`
+
+The `help` command shows this document using the system's `more` utility.
+
+### `pause`
+
+The `pause` command waits for you to press enter before proceeding.
+
+```
+/home/user $ pause
+Press enter to continue...
+/home/user $
+```
+
+### `quit`
+
+The `quit` command closes the shell.
