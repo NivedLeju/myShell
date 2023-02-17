@@ -73,8 +73,6 @@ void process_command_line(char* line)
 
     for (int j = i - 1; j != 0; j--)
     {
-        printf("arg %d: %s\n", j, argv[j]);
-
         if (argv[j][0] == '&')
         {
             argv[j] = NULL;
