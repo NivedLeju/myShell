@@ -139,6 +139,10 @@ int main(int argc, char** argv)
     char* bufferPtr = &buffer[0];
     size_t bufferSize = BUFFER_SIZE;
 
+    // set the SHELL environment variable
+    get_executable_path(buffer, BUFFER_SIZE, argv[0]);
+    setenv("SHELL", buffer, true);
+
     // allocate buffer for the cwd
     char cwd[PATH_MAX];
 
