@@ -67,6 +67,18 @@ void process_command_line(char* line)
     // strip any trailing new line character from the command
     command[strcspn(command, "\n")] = 0;
 
+    // Parse the command line for background execution
+    bool background = false;
+
+    for (int j = i - 1; j != 0; j--)
+    {
+        if (argv[j][0] == '&')
+        {
+            argv[j] = NULL;
+            background = true;
+        }
+    }
+
     if (is_command("cd", command)) // compare string to "cd"
     {
         // get the argument
@@ -126,7 +138,7 @@ void process_command_line(char* line)
     else
     {
         // execute the program
-        exec_program(command, argv);
+        exec_program(command, argv, background);
     }
 
     free(argv);
