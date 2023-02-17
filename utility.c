@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 #include "utility.h"
 
@@ -12,6 +13,10 @@ void exec_program(char* program, char** argv)
 
     if (pid == 0) // child process
     {
+        // transfer SHELL environment variable to PARENT
+        char* shell = getenv("SHELL");
+        setenv("PARENT", shell, true);
+        
         // execute the program
         execvp(program, argv);
 
