@@ -150,7 +150,7 @@ void process_command_line(char* line)
         // print out all environment variables
         for (int i = 0; environ[i] != NULL; i++)
         {
-            printf("%s\n", environ[i]);
+            fprintf(out_file, "%s\n", environ[i]);
         }
     }
     else if (is_command("pause", command))
