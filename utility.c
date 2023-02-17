@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 
 #include "utility.h"
@@ -22,5 +23,22 @@ void exec_program(char* program, char** argv)
     {
         // wait for the child process to finish
         wait(NULL);
+    }
+}
+
+void get_executable_path(char* buffer, int buffer_size, char* argv0)
+{
+    if (argv0[0] == '/') // absolute path
+    {
+        strncpy(buffer, argv0, buffer_size);
+    }
+    else // relative path
+    {
+        // get the current working directory
+        getcwd(buffer, buffer_size);
+
+        // append the relative path to the executable
+        strncat(buffer, "/", buffer_size);
+        strncat(buffer, argv0, buffer_size);
     }
 }
