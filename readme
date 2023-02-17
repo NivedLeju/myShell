@@ -103,3 +103,11 @@ Press enter to continue...
 ### `quit`
 
 The `quit` command closes the shell.
+
+## Environment
+
+Environment variables are externally set variables that describe the environment a program is running on.
+
+The `environ` built-in command will list all environment variables that are currently set.
+
+When myShell runs, it will automatically set the environment variable `SHELL` to the path to its executable. In addition, any programs that are executed by myShell will have the `PARENT` environment variable set to myShell's executable path.
