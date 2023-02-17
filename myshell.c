@@ -188,6 +188,12 @@ void process_command_line(char* line)
         {
         }
     }
+    else if (is_command("help", command))
+    {
+        // execute "more" using the readme file as the input
+        char* more_argv[] = { "more", "readme", NULL };
+        exec_program("more", more_argv, in_file, out_file, background);
+    }
     else if (is_command("quit", command))
     {
         exit(0);
