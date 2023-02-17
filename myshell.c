@@ -68,6 +68,7 @@ void process_command_line(char* line)
     command[strcspn(command, "\n")] = 0;
 
     // Parse the command line for redirection and background execution
+    FILE* in_file = stdin;
     FILE* out_file = stdout;
     bool background = false;
 
@@ -77,6 +78,18 @@ void process_command_line(char* line)
         {
             argv[j] = NULL;
             background = true;
+        }
+        else if (argv[j][0] == '<')
+        {
+            in_file = fopen(argv[j + 1], "r");
+
+            if (in_file == NULL)
+            {
+                printf("Error: could not open file %s\n", argv[j + 1]);
+                return;
+            }
+
+            argv[j] = NULL;
         }
         else if (argv[j][0] == '>')
         {
@@ -167,7 +180,7 @@ void process_command_line(char* line)
     else
     {
         // execute the program
-        exec_program(command, argv, out_file, background);
+        exec_program(command, argv, in_file, out_file, background);
     }
 
     if (out_file != stdout)
