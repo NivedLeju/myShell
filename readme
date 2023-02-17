@@ -111,3 +111,54 @@ Environment variables are externally set variables that describe the environment
 The `environ` built-in command will list all environment variables that are currently set.
 
 When myShell runs, it will automatically set the environment variable `SHELL` to the path to its executable. In addition, any programs that are executed by myShell will have the `PARENT` environment variable set to myShell's executable path.
+
+## Redirection
+
+By default, myShell will send all user output to the terminal (`stdout`), and will read all input that the user types into the terminal (`stdin`).
+
+If desired, one can ask myShell to redirect its output or read its input from a file.
+
+### Output
+
+The `>` operator allows the output file to be set. If the file already exists, its content will be deleted. For example, to redirect the output of `dir` to the file `listing.txt`:
+
+```
+/home/user $ dir Documents > listing.txt
+```
+
+After this, the file `listing.txt` will contain the output of the `dir` command:
+
+```
+.
+..
+Resume.docx
+```
+
+The `>>` operator allows the output file to be set. However, it does not delete the content of the file if it already exists. Instead, the output will be appended to the pre-existing content. For example, if we `dir` the current directory and redirect the output to the file `listing.txt` in append mode:
+
+```
+/home/user $ dir >> listing.txt
+```
+
+After this, the file `listing.txt` will contain the output of both `dir` commands:
+
+```
+.
+..
+Resume.docx
+.
+..
+Desktop
+Documents
+Pictures
+Videos
+```
+
+### Input
+
+The `>` operator allows the input to be set. For example, to have the `base64` command encode the contents of the file `listing.txt` instead of the terminal input:
+
+```
+/home/user $ base64 < listing.txt
+LgouLgpSZXN1bWUuZG9jeAouCi4uCkRlc2t0b3AKRG9jdW1lbnRzClBpY3R1cmVzClZpZGVvcwo=
+```
