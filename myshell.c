@@ -135,6 +135,11 @@ void process_command_line(char* line)
             }
         }
     }
+    else if (is_command("clr", command))
+    {
+        // clear the screen
+        system("clear");
+    }
     else if (is_command("dir", command))
     {
         // open the current directory
