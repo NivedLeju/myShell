@@ -124,6 +124,21 @@ void process_command_line(char* line)
     {
         // get the argument
         char* path = argv[1];
+
+        if (path == NULL)
+        {
+            // if no path was specified, just print the current directory
+            char cwd[PATH_MAX];
+
+            if (getcwd(cwd, PATH_MAX) != NULL)
+            {
+                printf("%s\n", cwd);
+            }
+            else
+            {
+                printf("Error: could not get current working directory\n");
+            }
+        }
         
         // attempt to change to the directory; chdir returns 0 on success
         if (chdir(path) < 0)
@@ -192,7 +207,7 @@ void process_command_line(char* line)
     else if (is_command("pause", command))
     {
         printf("Press enter to continue...");
-        
+
         // loop forever until getchar() returns a newline character
         while (getchar() != '\n')
         {
