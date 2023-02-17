@@ -5,6 +5,8 @@
 #include <limits.h>
 #include <errno.h>
 #include <dirent.h>
+#include <fcntl.h>
+#include <stdbool.h>
 
 #include "utility.h"
 
@@ -139,19 +141,50 @@ int main(int argc, char** argv)
     // allocate buffer for the cwd
     char cwd[PATH_MAX];
 
+    // the fd to read input from
+    FILE* input_file = stdin;
+    bool is_running_script = false;
+
+    if (argc == 2)
+    {
+        input_file = fopen(argv[1], "r");
+        is_running_script = true;
+        
+        if (input_file == NULL)
+        {
+            printf("Error: could not open file %s\n", argv[1]);
+            exit(1);
+        }
+    }
+
     // infinite loop
     while (1)
     {
-        // get cwd so we can print it in the prompt
-        getcwd(cwd, sizeof(cwd));
+        if (!is_running_script)
+        {
+            // get cwd so we can print it in the prompt
+            getcwd(cwd, sizeof(cwd));
 
-        // print out the prompt
-        printf("%s $ ", cwd);
+            // print out the prompt
+            printf("%s $ ", cwd);
+        }
         
         // read user input until they press enter
-        size_t out = getline(&buffer, &bufferSize, stdin);
+        size_t out = getline(&buffer, &bufferSize, input_file);
+
+        // check if an error occurred (including eof)
+        if (out == -1)
+        {
+            break;
+        }
 
         // call our function to process the command line
         process_command_line(buffer);
+    }
+
+    if (is_running_script)
+    {
+        // close the file if we opened one
+        fclose(input_file);
     }
 }
