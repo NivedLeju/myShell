@@ -162,3 +162,15 @@ The `>` operator allows the input to be set. For example, to have the `base64` c
 /home/user $ base64 < listing.txt
 LgouLgpSZXN1bWUuZG9jeAouCi4uCkRlc2t0b3AKRG9jdW1lbnRzClBpY3R1cmVzClZpZGVvcwo=
 ```
+
+## Background
+
+When the character `&` is found at the end of a command, myShell will run the command in the background instead of waiting for it to finish. Control will be returned to the user immediately, regardless of whether the command is finished executing.
+
+For example, to run a `curl` command that may take some time to execute in the background:
+
+```
+/home/user $ curl -O file https://example.com/large-file.bin &
+```
+
+After pressing enter, the download will proceed in the background.
