@@ -135,7 +135,8 @@ void process_command_line(char* line)
 int main(int argc, char** argv)
 {
     // allocate buffer for getline
-    char* buffer = malloc(BUFFER_SIZE);
+    char buffer[BUFFER_SIZE];
+    char* bufferPtr = &buffer[0];
     size_t bufferSize = BUFFER_SIZE;
 
     // allocate buffer for the cwd
@@ -170,7 +171,7 @@ int main(int argc, char** argv)
         }
         
         // read user input until they press enter
-        size_t out = getline(&buffer, &bufferSize, input_file);
+        size_t out = getline(&bufferPtr, &bufferSize, input_file);
 
         // check if an error occurred (including eof)
         if (out == -1)
