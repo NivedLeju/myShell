@@ -142,13 +142,21 @@ void process_command_line(char* line)
     }
     else if (is_command("dir", command))
     {
+        char* path = argv[1];
+
+        // if no path was specified, use the current directory
+        if (path == NULL)
+        {
+            path = ".";
+        }
+
         // open the current directory
-        DIR* dir = opendir(".");
+        DIR* dir = opendir(path);
 
         // check if the directory was opened successfully
         if (dir == NULL)
         {
-            printf("Error: could not open current directory\n");
+            printf("Error: could not open the directory %s\n", path);
             return;
         }
 
