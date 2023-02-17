@@ -6,7 +6,7 @@
 
 #include "utility.h"
 
-void exec_program(char* program, char** argv)
+void exec_program(char* program, char** argv, bool background)
 {
     // fork a new process
     pid_t pid = fork();
@@ -16,7 +16,7 @@ void exec_program(char* program, char** argv)
         // transfer SHELL environment variable to PARENT
         char* shell = getenv("SHELL");
         setenv("PARENT", shell, true);
-        
+
         // execute the program
         execvp(program, argv);
 
@@ -26,8 +26,11 @@ void exec_program(char* program, char** argv)
     }
     else // parent process
     {
-        // wait for the child process to finish
-        wait(NULL);
+        if (!background)
+        {
+            // wait for the child process to finish
+            wait(NULL);
+        }
     }
 }
 
