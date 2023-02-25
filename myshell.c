@@ -88,7 +88,7 @@ void process_command_line(char* line)
             if (in_file == NULL)
             {
                 printf("Error: could not open file %s\n", argv[j + 1]);
-                return;
+                goto end;
             }
 
             argv[j] = NULL;
@@ -111,7 +111,7 @@ void process_command_line(char* line)
             if (out_file == NULL)
             {
                 printf("Error: could not open file %s\n", argv[j + 1]);
-                return;
+                goto end;
             }
             
             // POSIX standard doesn't specify initial file position for append mode
@@ -174,7 +174,7 @@ void process_command_line(char* line)
         if (dir == NULL)
         {
             printf("Error: could not open the directory %s\n", path);
-            return;
+            goto end;
         }
 
         struct dirent* entry;
@@ -231,7 +231,8 @@ void process_command_line(char* line)
         exec_program(command, argv, in_file, out_file, background);
     }
 
-    if (out_file != stdout)
+end:
+    if (out_file != NULL && out_file != stdout)
     {
         fclose(out_file);
     }
